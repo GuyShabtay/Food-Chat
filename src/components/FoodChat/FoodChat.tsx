@@ -1,23 +1,29 @@
-import React, { useState, useEffect } from "react";
+import  { useState } from "react";
 import "./FoodChat.css";
-import InsightsIcon from '@mui/icons-material/Insights';
-import SendIcon from '@mui/icons-material/Send';
-import CircularProgress from '@mui/material/CircularProgress';
+import InsightsIcon from "@mui/icons-material/Insights";
+import SendIcon from "@mui/icons-material/Send";
+import CircularProgress from "@mui/material/CircularProgress";
 
+type Message = {
+  role: "user" | "assistant";
+  text: string;
+};
+
+type OpenAIResponse = {
+  choices: { message?: { content?: string } }[];
+};
 
 export default function FoodChat() {
-  const [messages, setMessages] = useState([]); // רק הודעות של המשתמש וה-assistant
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showIntro, setShowIntro] = useState(true); // ההודעה במרכז
+  const [showIntro, setShowIntro] = useState(true);
 
-  const handleSend = async () => {
+  const handleSend = async (): Promise<void> => {
     if (!input.trim()) return;
-
-    // fade out של ההודעה המרכזית
     if (showIntro) setShowIntro(false);
 
-    const newMessages = [...messages, { role: "user", text: input }];
+    const newMessages: Message[] = [...messages, { role: "user", text: input }];
     setMessages(newMessages);
     setInput("");
     setLoading(true);
@@ -27,24 +33,23 @@ export default function FoodChat() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
+          Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY as string}`,
         },
         body: JSON.stringify({
           model: "gpt-4o-mini",
           messages: [
             {
               role: "system",
-content:
-  "אתה עוזר תזונה. קבל תיאור בעברית של מאכלים (סוג וכמות) והחזר אך ורק את מספר החלבונים ואחריהם הקלוריות. דוגמה: '25 חלבונים, 300 קלוריות'. אל תוסיף טקסט נוסף."
-
+              content:
+                "אתה עוזר תזונה. קבל תיאור בעברית של מאכלים (סוג וכמות) והחזר אך ורק את מספר החלבונים ואחריהם הקלוריות. דוגמה: '25 חלבונים, 300 קלוריות'. אל תוסיף טקסט נוסף.",
             },
-            ...newMessages.map((m) => ({ role: m.role, content: m.text }))
+            ...newMessages.map((m) => ({ role: m.role, content: m.text })),
           ],
-          temperature: 0
-        })
+          temperature: 0,
+        }),
       });
 
-      const data = await res.json();
+      const data: OpenAIResponse = await res.json();
       const answer = data.choices[0]?.message?.content || "לא הצלחתי לחשב.";
 
       setMessages([...newMessages, { role: "assistant", text: answer }]);
@@ -59,14 +64,13 @@ content:
   return (
     <div className="chat-container">
       <div id="header">
-      <InsightsIcon id='insight-icon'/>
-      <h2>Food Chat</h2>
+        <InsightsIcon id="insight-icon" />
+        <h2>Food Chat</h2>
       </div>
+
       {showIntro && (
-        <div className={`intro-message ${!showIntro ? "fade-out" : ""}`}>
-          <h2>
-          היי גיא, ספר לי מה אכלת ואחשב עבורך קלוריות וחלבונים
-          </h2>
+        <div className="intro-message">
+          <h2>היי גיא, ספר לי מה אכלת ואחשב עבורך קלוריות וחלבונים</h2>
         </div>
       )}
 
@@ -76,11 +80,11 @@ content:
             {m.text}
           </div>
         ))}
-{loading && (
-  <div className="message assistant" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-    <CircularProgress size={20} sx={{ color: '#e0e0e0' }} />
-  </div>
-)}
+        {loading && (
+          <div className="message assistant" style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress size={20} sx={{ color: "#e0e0e0" }} />
+          </div>
+        )}
       </div>
 
       <div className="chat-input">
@@ -91,8 +95,8 @@ content:
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
         />
-        <button id='send-btn' onClick={handleSend} disabled={loading}>
-          <SendIcon id='send-icon'/>
+        <button id="send-btn" onClick={handleSend} disabled={loading}>
+          <SendIcon id="send-icon" />
         </button>
       </div>
     </div>
