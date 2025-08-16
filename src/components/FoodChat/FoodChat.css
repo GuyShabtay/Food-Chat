@@ -1,7 +1,9 @@
 /* Container של הצ'אט */
 .chat-container {
   width: 390px; /* iPhone 13 Pro */
+  width: 100%;
   height: 844px;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   font-family: Arial, sans-serif;
