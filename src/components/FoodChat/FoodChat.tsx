@@ -73,6 +73,7 @@ export default function FoodChat() {
           <h2>היי גיא, ספר לי מה אכלת ואחשב עבורך קלוריות וחלבונים</h2>
         </div>
       )}
+        <InsightsIcon id="insight-icon" />
 
       <div className="chat-messages">
         {messages.map((m, i) => (
