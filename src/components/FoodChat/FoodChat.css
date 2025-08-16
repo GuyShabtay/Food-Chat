@@ -1,0 +1,184 @@
+/* Container של הצ'אט */
+.chat-container {
+  width: 390px; /* iPhone 13 Pro */
+  height: 844px;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  background-color: #212121; /* רקע כללי */
+  color: #e0e0e0;
+  margin: auto;
+  direction: rtl;
+  position: relative;
+}
+
+/* הודעת פתיחה במרכז המסך */
+.intro-message {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: transparent; /* make text transparent for gradient */
+  /* padding: 15px 5px; */
+  opacity: 0;
+  animation: fadeUp 1s forwards;
+  text-align: center;
+  max-width: 80%;
+  font-size: 16px;
+  pointer-events: none;
+  z-index: 10;
+
+  /* Gradient text */
+background: linear-gradient(45deg, rgb(118, 105, 159), rgb(201, 93, 131));
+  -webkit-background-clip: text;
+  background-clip: text;
+  width: 100%;
+}
+
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.intro-message.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -55%);
+  }
+}
+
+/* אזור ההודעות */
+.chat-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scroll-behavior: smooth;
+  justify-content: flex-end;
+}
+
+/* הודעות */
+.message {
+  max-width: 80%;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 15px;
+  line-height: 1.4;
+
+}
+
+/* הודעת משתמש */
+.message.user {
+  align-self: flex-start;
+  background-color: #303030; /* צבע שהגדרת לפרומפטים שלך */
+  color: #e0e0e0;
+}
+
+/* הודעת assistant */
+.message.assistant {
+  align-self: flex-end;
+/* background: linear-gradient(to right, #252525, #303030); */
+    background-color: #1c1c1c; /* צבע שהגדרת לפרומפטים שלך */
+background: linear-gradient(45deg, rgb(118, 105, 159), rgb(201, 93, 131));
+
+  /* border: 1px solid #333; */
+  color: #e0e0e0;
+}
+
+/* אזור הכנסת הודעה */
+.chat-input {
+  display: flex;
+  padding: 10px;
+  background-color: #212121; /* רקע כהה אחיד */
+}
+
+/* Input */
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 15px;
+  margin-left: 10px;
+  font-size: 16px;
+  background-color: #303030; /* פרומפטים שלך */
+  color: #e0e0e0;
+}
+
+/* Placeholder */
+.chat-input input::placeholder {
+  color: #888;
+}
+
+/* כפתור שלח */
+.chat-input button {
+  /* background-color: #10a37f; */
+background: linear-gradient(45deg, rgb(118, 105, 159), rgb(201, 93, 131));
+  color: white;
+  border: none;
+  padding: 0 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.chat-input button:hover {
+  background-color: #0e8f70;
+}
+
+.chat-input button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+/* Scrollbar Dark */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: #333;
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background-color: #212121;
+}
+#header{
+   display: flex;
+  justify-content: center;
+  align-items: center;
+    /* border: 3px solid green; */
+    background: linear-gradient(45deg, rgb(118, 105, 159), rgb(201, 93, 131));
+border-radius: 15px;
+}
+#insight-icon{
+  margin-left: 12px;
+font-size: 30px;
+}
+#send-icon{
+  transform: rotate(180deg);
+}
+#send-btn{
+     display: flex;
+  justify-content: center;
+  align-items: center;
+}
